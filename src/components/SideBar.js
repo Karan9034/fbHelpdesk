@@ -4,11 +4,8 @@ import InboxSelectedLogo from "../assets/inbox-selected.svg";
 import AdminLogo from '../assets/admin.png'
 import AnalyticsLogo from '../assets/analytics.png'
 import LogoutIcon from '../assets/logout.png'
-import { useState } from "react";
 
-const SideBar = () => {
-
-    const [selected, setSelected] = useState("inbox");
+const SideBar = ({currPage, setCurrPage}) => {
     
     const logout = () => {
         localStorage.removeItem('token');
@@ -21,20 +18,20 @@ const SideBar = () => {
                 <img src="/logo192.png" alt="logo" width={"100%"}/>
             </div>
             <div className="menu">
-                {selected === "inbox" ? (
+                {currPage === "inbox" ? (
                     <img className="menu-item selected" src={InboxSelectedLogo} alt="logo" width={"100%"}/>
                 ) : (
-                    <img className="menu-item" onClick={() => setSelected('inbox')} src={InboxLogo} alt="logo" width={"100%"}/>
+                    <img className="menu-item" onClick={() => setCurrPage('inbox')} src={InboxLogo} alt="logo" width={"100%"}/>
                 )}
-                {selected === "admin" ? (
+                {currPage === "admin" ? (
                     <img className="menu-item selected" src={AdminLogo} alt="logo" width={"100%"}/>
                 ) : (
-                    <img className="menu-item" onClick={() => setSelected('admin')} src={AdminLogo} alt="logo" width={"100%"}/>
+                    <img className="menu-item" onClick={() => setCurrPage('admin')} src={AdminLogo} alt="logo" width={"100%"}/>
                 )}
-                {selected === "analytics" ? (
+                {currPage === "analytics" ? (
                     <img className="menu-item selected" src={AnalyticsLogo} alt="logo" width={"100%"}/>
                 ) : (
-                    <img className="menu-item" onClick={() => setSelected('analytics')} src={AnalyticsLogo} alt="logo" width={"100%"}/>
+                    <img className="menu-item" onClick={() => setCurrPage('analytics')} src={AnalyticsLogo} alt="logo" width={"100%"}/>
                 )}
                 <img className="menu-item logout" onClick={logout} src={LogoutIcon} alt="logout" width={"100%"} />
             </div>

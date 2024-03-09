@@ -56,11 +56,11 @@ const Register = () => {
                 <h3>Create Account</h3>
                 <form onSubmit={handleSubmit}>
                     <label htmlFor="name">Name</label><br />
-                    <input type="text" id="name" name="name" placeholder="Enter your name" value={name} onChange={(e) => setName(e.target.value)} /><br />
+                    <input type="text" required id="name" name="name" placeholder="Enter your name" value={name} onChange={(e) => setName(e.target.value)} /><br />
                     <label htmlFor="email">Email</label><br />
-                    <input type="email" id="email" name="email" placeholder="Enter your email" value={email} onChange={(e) => setEmail(e.target.value)} /><br />
+                    <input type="email" required id="email" name="email" placeholder="Enter your email" value={email} onChange={(e) => setEmail(e.target.value)} /><br />
                     <label htmlFor="password">Password</label><br />
-                    <input type="password" id='password' name='password' placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} /><br />
+                    <input type="password" required id='password' name='password' placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} /><br />
                     <input type="checkbox" />
                     <label>Remember Me</label><br />
                     <button type='submit'>Sign Up</button>

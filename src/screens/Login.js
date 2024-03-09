@@ -57,9 +57,9 @@ const Login = () => {
                 <h3>Login to your account</h3>
                 <form onSubmit={handleSubmit}>
                     <label htmlFor="email">Email</label><br />
-                    <input type="email" id="email" name="email" placeholder="Enter your email" value={email} onChange={(e) => setEmail(e.target.value)}/><br />
+                    <input type="email" required id="email" name="email" placeholder="Enter your email" value={email} onChange={(e) => setEmail(e.target.value)}/><br />
                     <label htmlFor="password">Password</label><br />
-                    <input type="password" id='password' name='password' placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} /><br />
+                    <input type="password" required id='password' name='password' placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} /><br />
                     <input type="checkbox" />
                     <label>Remember Me</label><br />
                     <button type='submit'>Sign Up</button>

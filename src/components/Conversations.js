@@ -1,3 +1,4 @@
+import { Fragment } from 'react';
 import '../styles/Conversations.css';
 
 const Conversations = ({conversations, selectedConversation, setSelectedConversation}) => {
@@ -37,10 +38,10 @@ const Conversations = ({conversations, selectedConversation, setSelectedConversa
             <div className="conversations-container">
                 {conversations.map(conversation => {
                     return (
-                        <>
+                        <Fragment key={conversation._id}>
                         {selectedConversation && selectedConversation._id === conversation._id
                             ? (
-                                <div className="conversation selected" key={conversation._id} onClick={(e) => handleClick(e, conversation)}>
+                                <div className="conversation selected" onClick={(e) => handleClick(e, conversation)}>
                                     <h5>{conversation.sender_name}
                                         <span className='time'>{formatDate(conversation.lastUpdated)}</span>
                                     </h5>
@@ -48,7 +49,7 @@ const Conversations = ({conversations, selectedConversation, setSelectedConversa
                                 </div>
                             )
                             : (
-                                <div className="conversation" key={conversation._id} onClick={(e) => handleClick(e, conversation)}>
+                                <div className="conversation" onClick={(e) => handleClick(e, conversation)}>
                                     <h5>{conversation.sender_name}
                                         <span className='time'>{formatDate(conversation.lastUpdated)}</span>
                                     </h5>
@@ -56,7 +57,7 @@ const Conversations = ({conversations, selectedConversation, setSelectedConversa
                                 </div>
                             )
                         }
-                        </>
+                        </Fragment>
                     )
                 })}
             </div>

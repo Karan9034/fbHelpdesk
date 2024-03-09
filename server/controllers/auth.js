@@ -7,7 +7,7 @@ module.exports = {
     registerUser: (req, res) => {
         if(req.body.email && req.body.password && req.body.name) {
             User.findOne({ email: req.body.email }).then((user) => {
-                if(user) {
+                if(user && user.password != null) {
                     res.status(400).json({ success: false, message: "User already exists" })
                 }else{
                     bcrypt.genSalt(10, (err, salt) => {
@@ -18,14 +18,22 @@ module.exports = {
                                 if(err) {
                                     res.status(500).json({ success: false, message: `Internal server error: ${err}` })
                                 }else{
-                                    const newUser = new User({
-                                        email: req.body.email,
-                                        password: hash,
-                                        name: req.body.name
-                                    })
-                                    newUser.save().then((user) => {
-                                        res.status(200).json({ success: true, message: "User created" })
-                                    })
+                                    if(user){
+                                        user.password = hash
+                                        user.name = req.body.name
+                                        user.save().then(() => {
+                                            res.status(200).json({ success: true, message: "User created" })
+                                        })
+                                    }else{
+                                        const newUser = new User({
+                                            email: req.body.email,
+                                            password: hash,
+                                            name: req.body.name
+                                        })
+                                        newUser.save().then((user) => {
+                                            res.status(200).json({ success: true, message: "User created" })
+                                        })
+                                    }
                                 }
                             })
                         }
@@ -39,7 +47,7 @@ module.exports = {
     loginUser: (req, res) => {
         if(req.body.email && req.body.password) {
             User.findOne({ email: req.body.email }).then((user) => {
-                if(!user) {
+                if(!user || user.password==null) {
                     res.status(404).json({ success: false, message: "User not found" })
                 }else{
                     user.comparePassword(req.body.password, (err, isMatch) => {

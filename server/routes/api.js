@@ -4,7 +4,6 @@ const { registerUser, loginUser } = require('../controllers/auth');
 const { verifyToken } = require('../middlewares/verifyToken');
 const User = require('../models/User');
 const Conversation = require('../models/Conversation');
-const { decodeToken } = require('../services/jwt');
 
 router.get('/', (req, res) => {
     res.send("Welcome to FB Helpdesk API!")
@@ -17,8 +16,7 @@ router.get('/auth/facebook/callback', passport.authenticate('facebook', {
         failureRedirect: `${process.env.CLIENT_URL}/login?success=false`,
         session: false
     }), (req, res) => {
-        const id = decodeToken(req.query.jwt)
-        User.findOne({_id: id}).then(user => {
+        User.findOne({id: req.user._id}).then(user => {
             if(user && user.accessToken == null){
                 user.accessToken = req.accessToken
                 fetch(`${process.env.FACEBOOK_API_URL}/me/accounts?access_token=${req.accessToken}`)
@@ -51,6 +49,27 @@ router.get('/delete', verifyToken, (req, res) => {
     if(req.user.accessToken != null){
         User.findOneAndUpdate({_id: req.user._id}, {accessToken: null, page_id: null, page_accessToken: null, page_name: null}).then((user) => {
             res.status(200).json({ success: true, message: "User disconnected"})
+        })
+    }
+})
+
+router.post('/invite', verifyToken, (req, res) => {
+    if(req.user.accessToken != null){
+        User.findOne({email: req.body.email}).then(user => {
+            if(user){
+                res.status(200).json({ success: false, message: "User already exists"})
+            }else{
+                let newUser = new User({
+                    email: req.body.email,
+                    accessToken: req.user.accessToken,
+                    page_id: req.user.page_id,
+                    page_accessToken: req.user.page_accessToken,
+                    page_name: req.user.page_name
+                })
+                newUser.save().then(() => {
+                    res.status(200).json({ success: true, message: "User added successfully"})
+                })
+            }
         })
     }
 })

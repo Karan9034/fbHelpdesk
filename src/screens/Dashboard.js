@@ -3,8 +3,10 @@ import Conversations from '../components/Conversations';
 import '../styles/Dashboard.css'
 import { useEffect, useState } from 'react';
 import ChatArea from '../components/ChatArea';
+import Admin from '../components/Admin';
 
 const Dashboard = () => {
+    const [currPage, setCurrPage] = useState('inbox')
     const [conversations, setConversations] = useState([]);
     const [selectedConversation, setSelectedConversation] = useState(null);
 
@@ -40,9 +42,18 @@ const Dashboard = () => {
 
     return (
         <div className="dashboard">
-            <SideBar />
-            <Conversations conversations={conversations} selectedConversation={selectedConversation} setSelectedConversation={setSelectedConversation} />
-            <ChatArea selectedConversation={selectedConversation} setSelectedConversation={setSelectedConversation}/>
+            <SideBar currPage={currPage} setCurrPage={setCurrPage} />
+            {currPage === 'inbox' &&
+                <>
+                    <Conversations conversations={conversations} selectedConversation={selectedConversation} setSelectedConversation={setSelectedConversation} />
+                    <ChatArea selectedConversation={selectedConversation} setSelectedConversation={setSelectedConversation}/>
+                </>
+            }
+            {
+                currPage === 'admin' &&
+                <Admin />
+            }
+
         </div>
     )
 }
