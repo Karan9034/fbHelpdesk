@@ -43,6 +43,8 @@ const Manage = () => {
                         window.location.href = '/login';
                     }
                 })
+        }else{
+            window.location.href = '/login';
         }
     }, [])
 

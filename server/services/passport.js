@@ -17,6 +17,7 @@ passport.use(new FacebookStrategy({
     },
     (req, accessToken, refreshToken, profile, cb) => {
         req.accessToken = accessToken;
+        console.log(accessToken, refreshToken)
         cb(null, profile)
     }
 ));

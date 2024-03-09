@@ -16,9 +16,10 @@ router.get('/auth/facebook/callback', passport.authenticate('facebook', {
         failureRedirect: `${process.env.CLIENT_URL}/login?success=false`,
         session: false
     }), (req, res) => {
+        console.log(req.accessToken)
         User.findOne({id: req.user._id}).then(user => {
             if(user && user.accessToken == null){
-                user.accessToken = req.accessToken;
+                user.accessToken = req.accessToken
                 fetch(`${process.env.FACEBOOK_API_URL}/me/accounts?access_token=${req.accessToken}`)
                     .then(response => response.json())
                     .then(data => {

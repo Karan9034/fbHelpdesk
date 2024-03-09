@@ -2,7 +2,7 @@
     height: 100%;
     width: 5vw;
     background-color: #1e4d91;
-    overflow-x: hidden;
+    overflow: hidden;
 }
 .sidebar .logo{
     margin: 20%;
@@ -12,6 +12,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    height: 100%;
 }
 .sidebar .menu .menu-item {
     padding: 20% 30%;
@@ -24,4 +25,7 @@
 
 .sidebar .menu .menu-item.selected {
     background-color: white;
+}
+.sidebar .menu .menu-item.logout {
+    justify-self: flex-end !important;
 }

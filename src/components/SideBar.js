@@ -3,11 +3,17 @@ import InboxLogo from "../assets/inbox.svg";
 import InboxSelectedLogo from "../assets/inbox-selected.svg";
 import AdminLogo from '../assets/admin.png'
 import AnalyticsLogo from '../assets/analytics.png'
+import LogoutIcon from '../assets/logout.png'
 import { useState } from "react";
 
 const SideBar = () => {
 
     const [selected, setSelected] = useState("inbox");
+    
+    const logout = () => {
+        localStorage.removeItem('token');
+        window.location.href = '/login';
+    }
 
     return (
         <div className="sidebar">
@@ -30,6 +36,7 @@ const SideBar = () => {
                 ) : (
                     <img className="menu-item" onClick={() => setSelected('analytics')} src={AnalyticsLogo} alt="logo" width={"100%"}/>
                 )}
+                <img className="menu-item logout" onClick={logout} src={LogoutIcon} alt="logout" width={"100%"} />
             </div>
         </div>
     )

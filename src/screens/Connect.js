@@ -25,6 +25,8 @@ const Connect = () => {
                         window.location.href = '/login';
                     }
                 })
+        }else{
+            window.location.href = '/login'
         }
     }, [])
 
