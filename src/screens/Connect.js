@@ -34,7 +34,7 @@ const Connect = () => {
         <div className="connect">
             <Card>
                 <h3>Facebook Page Integration</h3>
-                <Link to={`${process.env.REACT_APP_API_URL}/auth/facebook`}><button>Connect Page</button></Link>
+                <Link to={`${process.env.REACT_APP_API_URL}/auth/facebook?jwt=${localStorage.getItem('token')}`}><button>Connect Page</button></Link>
             </Card>
         </div>
     )

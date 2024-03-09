@@ -4,6 +4,7 @@ const { registerUser, loginUser } = require('../controllers/auth');
 const { verifyToken } = require('../middlewares/verifyToken');
 const User = require('../models/User');
 const Conversation = require('../models/Conversation');
+const { decodeToken } = require('../services/jwt');
 
 router.get('/', (req, res) => {
     res.send("Welcome to FB Helpdesk API!")
@@ -16,8 +17,8 @@ router.get('/auth/facebook/callback', passport.authenticate('facebook', {
         failureRedirect: `${process.env.CLIENT_URL}/login?success=false`,
         session: false
     }), (req, res) => {
-        console.log(req.user._id)
-        User.findOne({id: req.user._id}).then(user => {
+        const id = decodeToken(req.query.jwt)
+        User.findOne({_id: id}).then(user => {
             if(user && user.accessToken == null){
                 user.accessToken = req.accessToken
                 fetch(`${process.env.FACEBOOK_API_URL}/me/accounts?access_token=${req.accessToken}`)
