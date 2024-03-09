@@ -5,8 +5,13 @@ import Login from './screens/Login';
 import Connect from './screens/Connect';
 import Manage from './screens/Manage';
 import Dashboard from './screens/Dashboard';
+import {Navigate} from 'react-router-dom';
 
 const router = createBrowserRouter([
+    {
+        path: '/',
+        element: <Navigate to="/register" />
+    },
     {
         path: '/register',
         element: <Register />
