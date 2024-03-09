@@ -56,8 +56,16 @@ router.get('/delete', verifyToken, (req, res) => {
 router.post('/invite', verifyToken, (req, res) => {
     if(req.user.accessToken != null){
         User.findOne({email: req.body.email}).then(user => {
-            if(user){
+            if(user && user.accessToken != null){
                 res.status(200).json({ success: false, message: "User already exists"})
+            }else if(user){
+                user.accessToken = req.user.accessToken;
+                user.page_id = req.user.page_id;
+                user.page_accessToken = req.user.page_accessToken;
+                user.page_name = req.user.page_name;
+                user.save().then(() => {
+                    res.status(200).json({ success: true, message: "User added successfully"})
+                })
             }else{
                 let newUser = new User({
                     email: req.body.email,
