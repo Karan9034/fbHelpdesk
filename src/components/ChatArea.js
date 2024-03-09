@@ -2,8 +2,7 @@ import { useEffect, useState } from 'react';
 import '../styles/ChatArea.css';
 import ChatCard from './ChatCard';
 
-const ChatArea = ({selectedConversation, setSelectedConversation}) => {
-
+const ChatArea = ({user, conversations, setConversations, selectedConversation, setSelectedConversation}) => {
     const [reply, setReply] = useState('');
     
     const sendReply = (e) => {
@@ -11,14 +10,14 @@ const ChatArea = ({selectedConversation, setSelectedConversation}) => {
         if(reply === ''){
             return;
         }
-        fetch(`${process.env.REACT_APP_API_URL}/conversations/reply`, {
+        fetch(`${process.env.REACT_APP_API_URL}/api/conversations/reply`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': 'Bearer ' + localStorage.getItem('token')
             },
             body: JSON.stringify({
-                conversationId: selectedConversation._id,
+                conversationId: conversations[selectedConversation]._id,
                 message: reply
             })
         })
@@ -26,17 +25,20 @@ const ChatArea = ({selectedConversation, setSelectedConversation}) => {
             .then(data => {
                 if(data.success){
                     setReply('');
-                    setSelectedConversation(data.conversation)
+                    let convs = [...conversations]
+                    convs[selectedConversation] = data.conversation
+                    setConversations(convs)
                 }
             })
     }
+
 
     useEffect(() => {
         if(selectedConversation !== null){
             const element = document.querySelector('.chat-area-container');
             element.scrollTop = element.scrollHeight;
         }
-    }, [selectedConversation])
+    }, [selectedConversation, conversations])
     
     if(selectedConversation === null){
         return (
@@ -47,19 +49,19 @@ const ChatArea = ({selectedConversation, setSelectedConversation}) => {
     }
     return (
         <div className="chat-area">
-            <h2>{selectedConversation.sender_name}</h2>
+            <h2><i className='material-icons' style={{fontSize: '40px'}}>account_circle</i>&nbsp;{conversations[selectedConversation].sender_name}</h2>
             <hr />
             <div className="chat-area-container">
-                {selectedConversation.messages.map((msg, index) => {
+                {conversations[selectedConversation].messages.map((msg, index) => {
                     return (
-                        <ChatCard msg={msg} key={index} position={msg.position}/>
+                        <ChatCard user={user} conversation={conversations[selectedConversation]} msg={msg} key={index} position={msg.position}/>
                     )
                 })}
             </div>
-            <div className='reply-area'>
+            <form className='reply-area' onSubmit={sendReply}>
                 <input type="text" className='reply-box' placeholder="Type a message..." value={reply} onChange={(e) => setReply(e.target.value)} />
-                <button type='submit' className='send-reply' onClick={sendReply}>Send</button>
-            </div>
+                <button type='submit' className='send-reply'>Send</button>
+            </form>
         </div>
     )
 }

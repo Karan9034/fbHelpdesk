@@ -39,9 +39,9 @@ router.post('/auth/register', registerUser)
 router.post('/auth/login', loginUser)
 router.get('/auth/verify', verifyToken, (req, res) => {
     if(req.user.accessToken == null) {
-        res.status(200).json({ success: true, message: "Token is valid", connected: false})
+        res.status(200).json({ success: true, message: "Token is valid", connected: false, user: {email: req.user.email, name: req.user.name}})
     }else{
-        res.status(200).json({ success: true, message: "Token is valid", connected: true, page_id: req.user.page_id, page_name: req.user.page_name})
+        res.status(200).json({ success: true, message: "Token is valid", connected: true, page_id: req.user.page_id, page_name: req.user.page_name, user: {email: req.user.email, name: req.user.name}})
     }
 })
 
@@ -92,7 +92,7 @@ router.get('/page', verifyToken, (req, res) => {
 
 router.get('/conversations', verifyToken, (req, res) => {
     Conversation.find({page_id: req.user.page_id}).then(conversations => {
-        res.status(200).json({ success: true, conversations: conversations })
+        res.status(200).json({ success: true, conversations: conversations, page_id: req.user.page_id })
     })
 })
 router.post('/conversations/reply', verifyToken, (req, res) => {
@@ -152,6 +152,7 @@ router.post('/messaging-webhook', (req, res) => {
                 conversation.lastUpdated = new Date();
                 conversation.save().then(() => {
                     console.log("Conversation updated")
+                    req.io.emit(`new-message-${pageId}`)
                     res.status(200).send("EVENT_RECEIVED");
                 })
             } else {
@@ -173,6 +174,7 @@ router.post('/messaging-webhook', (req, res) => {
                         })
                         newConversation.save().then(() => {
                             console.log("New conversation created")
+                            req.io.emit(`new-message-${pageId}`)
                             res.status(200).send("EVENT_RECEIVED");
                         })
                     })

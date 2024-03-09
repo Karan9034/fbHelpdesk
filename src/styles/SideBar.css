@@ -21,10 +21,12 @@
     cursor: pointer;
     text-decoration: none;
     border-bottom: 1px solid #1e4d91;
+    color: #fff;
 }
 
 .sidebar .menu .menu-item.selected {
     background-color: white;
+    color: #1e4d91;
 }
 .sidebar .menu .menu-item.logout {
     justify-self: flex-end !important;

@@ -10,6 +10,8 @@
 .conversations h2 {
     margin: 10px;
     padding: 0 20px;
+    display: flex;
+    align-items: center;
 }
 .conversations hr {
     border-top: 1px solid rgba(204, 204, 204, 1);

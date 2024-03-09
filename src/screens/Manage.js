@@ -7,7 +7,7 @@ const Manage = () => {
     const [pageName, setPageName] = useState("")
 
     const handleDelete = () => {
-        fetch(`${process.env.REACT_APP_API_URL}/delete`, {
+        fetch(`${process.env.REACT_APP_API_URL}/api/delete`, {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': 'Bearer ' + localStorage.getItem('token')
@@ -22,7 +22,7 @@ const Manage = () => {
 
     useEffect(() => {
         if(localStorage.getItem('token') !== null){
-            fetch(`${process.env.REACT_APP_API_URL}/auth/verify`, {
+            fetch(`${process.env.REACT_APP_API_URL}/api/auth/verify`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': 'Bearer ' + localStorage.getItem('token')

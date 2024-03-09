@@ -1,9 +1,6 @@
 import "../styles/SideBar.css";
 import InboxLogo from "../assets/inbox.svg";
 import InboxSelectedLogo from "../assets/inbox-selected.svg";
-import AdminLogo from '../assets/admin.png'
-import AnalyticsLogo from '../assets/analytics.png'
-import LogoutIcon from '../assets/logout.png'
 
 const SideBar = ({currPage, setCurrPage}) => {
     
@@ -24,16 +21,16 @@ const SideBar = ({currPage, setCurrPage}) => {
                     <img className="menu-item" onClick={() => setCurrPage('inbox')} src={InboxLogo} alt="logo" width={"100%"}/>
                 )}
                 {currPage === "admin" ? (
-                    <img className="menu-item selected" src={AdminLogo} alt="logo" width={"100%"}/>
+                    <i className="material-icons menu-item selected" onClick={() => setCurrPage('admin')} style={{fontSize: '36px'}}>group</i>
                 ) : (
-                    <img className="menu-item" onClick={() => setCurrPage('admin')} src={AdminLogo} alt="logo" width={"100%"}/>
+                    <i className="material-icons menu-item" onClick={() => setCurrPage('admin')} style={{fontSize: '36px'}}>group</i>
                 )}
                 {currPage === "analytics" ? (
-                    <img className="menu-item selected" src={AnalyticsLogo} alt="logo" width={"100%"}/>
-                ) : (
-                    <img className="menu-item" onClick={() => setCurrPage('analytics')} src={AnalyticsLogo} alt="logo" width={"100%"}/>
+                    <i className="material-icons menu-item selected" onClick={() => setCurrPage('analytics')} style={{fontSize: '36px'}}>insights</i>
+                    ) : (
+                    <i className="material-icons menu-item" onClick={() => setCurrPage('analytics')} style={{fontSize: '36px'}}>insights</i>
                 )}
-                <img className="menu-item logout" onClick={logout} src={LogoutIcon} alt="logout" width={"100%"} />
+                <i className="material-icons menu-item logout" onClick={logout} style={{fontSize: '36px'}}>logout</i>
             </div>
         </div>
     )

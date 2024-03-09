@@ -8,7 +8,7 @@ const Admin = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        fetch(`${process.env.REACT_APP_API_URL}/invite`, {
+        fetch(`${process.env.REACT_APP_API_URL}/api/invite`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

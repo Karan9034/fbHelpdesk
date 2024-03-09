@@ -27,8 +27,8 @@ const Conversations = ({conversations, selectedConversation, setSelectedConversa
         }
     }
 
-    const handleClick = (e, c) => {
-        setSelectedConversation(c);
+    const handleClick = (e, index) => {
+        setSelectedConversation(index);
     }
 
     return (
@@ -36,12 +36,12 @@ const Conversations = ({conversations, selectedConversation, setSelectedConversa
             <h2>Conversations</h2>
             <hr />
             <div className="conversations-container">
-                {conversations.map(conversation => {
+                {conversations.map((conversation, index) => {
                     return (
                         <Fragment key={conversation._id}>
-                        {selectedConversation && selectedConversation._id === conversation._id
+                        {conversations[selectedConversation] && conversations[selectedConversation]._id === conversation._id
                             ? (
-                                <div className="conversation selected" onClick={(e) => handleClick(e, conversation)}>
+                                <div className="conversation selected" onClick={(e) => handleClick(e, index)}>
                                     <h5>{conversation.sender_name}
                                         <span className='time'>{formatDate(conversation.lastUpdated)}</span>
                                     </h5>
@@ -49,7 +49,7 @@ const Conversations = ({conversations, selectedConversation, setSelectedConversa
                                 </div>
                             )
                             : (
-                                <div className="conversation" onClick={(e) => handleClick(e, conversation)}>
+                                <div className="conversation" onClick={(e) => handleClick(e, index)}>
                                     <h5>{conversation.sender_name}
                                         <span className='time'>{formatDate(conversation.lastUpdated)}</span>
                                     </h5>

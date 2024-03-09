@@ -7,7 +7,7 @@ const Connect = () => {
 
     useEffect(() => {
         if(localStorage.getItem('token') !== null){
-            fetch(`${process.env.REACT_APP_API_URL}/auth/verify`, {
+            fetch(`${process.env.REACT_APP_API_URL}/api/auth/verify`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': 'Bearer ' + localStorage.getItem('token')
@@ -34,7 +34,7 @@ const Connect = () => {
         <div className="connect">
             <Card>
                 <h3>Facebook Page Integration</h3>
-                <Link to={`${process.env.REACT_APP_API_URL}/auth/facebook`}><button>Connect Page</button></Link>
+                <Link to={`${process.env.REACT_APP_API_URL}/api/auth/facebook`}><button>Connect Page</button></Link>
             </Card>
         </div>
     )
