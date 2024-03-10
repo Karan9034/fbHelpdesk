@@ -1,5 +1,6 @@
 const passport = require('passport');
 const FacebookStrategy = require('passport-facebook');
+const Organization = require('../models/Organization');
 
 passport.serializeUser((user, done) => {
     done(null, user.id);
@@ -16,9 +17,28 @@ passport.use(new FacebookStrategy({
         passReqToCallback: true
     },
     (req, accessToken, refreshToken, profile, cb) => {
-        req.accessToken = accessToken;
-        console.log(accessToken, refreshToken)
-        cb(null, profile)
+        req.profileId = profile.id;
+        Organization.findOne({profileId: profile.id}).then(org => {
+            if(org){
+                return cb(null, profile)
+            }else{
+                fetch(`${process.env.FACEBOOK_API_URL}/me/accounts?access_token=${accessToken}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        const newOrg = new Organization({
+                            profileId: profile.id,
+                            name: profile.displayName,
+                            accessToken: accessToken,
+                            pageId: data.data[0].id,
+                            pageName: data.data[0].name,
+                            pageAccessToken: data.data[0].access_token
+                        })
+                        newOrg.save().then(() => {
+                            return cb(null, profile)
+                        })
+                    })
+            }
+        })
     }
 ));
 

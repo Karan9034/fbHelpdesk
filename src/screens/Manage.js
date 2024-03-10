@@ -2,9 +2,11 @@ import { Link } from 'react-router-dom';
 import Card from '../components/Card';
 import '../styles/Manage.css';
 import { useEffect, useState } from 'react';
+import Loader from '../components/Loader';
 
 const Manage = () => {
-    const [pageName, setPageName] = useState("")
+    const [user, setUser] = useState(null)
+    const [isLoading, setIsLoading] = useState(true);
 
     const handleDelete = () => {
         fetch(`${process.env.REACT_APP_API_URL}/api/delete`, {
@@ -22,7 +24,7 @@ const Manage = () => {
 
     useEffect(() => {
         if(localStorage.getItem('token') !== null){
-            fetch(`${process.env.REACT_APP_API_URL}/api/auth/verify`, {
+            fetch(`${process.env.REACT_APP_API_URL}/api/userDetails`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': 'Bearer ' + localStorage.getItem('token')
@@ -35,7 +37,9 @@ const Manage = () => {
                             window.location.href = '/connect';
                         }
                         else {
-                            setPageName(data.page_name)
+                            console.log(data.user.organizationId)
+                            setUser(data.user)
+                            setIsLoading(false);
                         }
                     }
                     else {
@@ -49,13 +53,20 @@ const Manage = () => {
     }, [])
 
     return (
-        <div className="manage">
-            <Card>
-                <h3>Facebook Page Integration<br/>Integrated Page: <b>{pageName}</b></h3>
-                <button className='delete' onClick={handleDelete}>Delete Integration</button>
-                <Link to="/dashboard"><button>Reply to Messages</button></Link>
-            </Card>
-        </div>  
+        <>
+        {
+            isLoading ? <Loader />
+            : (
+                <div className="manage">
+                    <Card>
+                        <h3>Facebook Page Integration<br/>Integrated Page: <b>{user.organizationId.pageName}</b></h3>
+                        <button className='delete' onClick={handleDelete}>Delete Integration</button>
+                        <Link to="/dashboard"><button>Reply to Messages</button></Link>
+                    </Card>
+                </div>  
+            )
+        }
+        </>
     )
 }
 

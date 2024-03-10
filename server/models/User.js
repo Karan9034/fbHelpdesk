@@ -15,22 +15,11 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: false
     },
-    accessToken: {
-        type: String,
+    organizationId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Organization',
         required: false
     },
-    page_id: {
-        type: String,
-        required: false
-    },
-    page_name: {
-        type: String,
-        required: false
-    },
-    page_accessToken: {
-        type: String,
-        required: false
-    }
 })
 
 userSchema.methods.comparePassword = function (password, done) {

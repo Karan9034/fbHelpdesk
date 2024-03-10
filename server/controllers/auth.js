@@ -30,7 +30,7 @@ module.exports = {
                                             password: hash,
                                             name: req.body.name
                                         })
-                                        newUser.save().then((user) => {
+                                        newUser.save().then(() => {
                                             res.status(200).json({ success: true, message: "User created" })
                                         })
                                     }

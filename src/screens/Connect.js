@@ -1,9 +1,11 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Card from '../components/Card';
 import '../styles/Connect.css';
 import { Link } from 'react-router-dom';
+import Loader from '../components/Loader';
 
 const Connect = () => {
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         if(localStorage.getItem('token') !== null){
@@ -15,9 +17,12 @@ const Connect = () => {
             })
                 .then(res => res.json())
                 .then(data => {
+                    console.log(data)
                     if(data.success){
                         if(data.connected) {
                             window.location.href = '/manage';
+                        }else{
+                            setIsLoading(false);
                         }
                     }
                     else {
@@ -31,12 +36,19 @@ const Connect = () => {
     }, [])
 
     return (
-        <div className="connect">
-            <Card>
-                <h3>Facebook Page Integration</h3>
-                <Link to={`${process.env.REACT_APP_API_URL}/api/auth/facebook`}><button>Connect Page</button></Link>
-            </Card>
-        </div>
+        <>
+        {
+            isLoading ? <Loader />
+            : (
+                <div className="connect">
+                    <Card>
+                        <h3>Facebook Page Integration</h3>
+                        <Link to={`${process.env.REACT_APP_API_URL}/api/auth/facebook`}><button>Connect Page</button></Link>
+                    </Card>
+                </div>
+            )
+        }
+        </>
     )
 }
 

@@ -6,6 +6,7 @@ import Connect from './screens/Connect';
 import Manage from './screens/Manage';
 import Dashboard from './screens/Dashboard';
 import {Navigate} from 'react-router-dom';
+import Process from './screens/Process';
 
 const router = createBrowserRouter([
     {
@@ -31,6 +32,10 @@ const router = createBrowserRouter([
     {
         path: '/dashboard',
         element: <Dashboard />
+    },
+    {
+        path: '/process',
+        element: <Process />
     }
 ]);
 

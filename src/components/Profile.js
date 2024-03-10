@@ -1,12 +1,12 @@
 import '../styles/Profile.css'
 
 
-const Profile = () => {
+const Profile = ({conversations, selectedConversation}) => {
     return (
         <div className='profile'>
             <div className='upper'>
                 <i className='material-icons' style={{fontSize: '80px'}}>account_circle</i>
-                <h2>Amit RG</h2>
+                <h2>{conversations[selectedConversation].sender_name}</h2>
                 <p>● Offline</p>
                 <div>
                     <button><i className='material-icons'>call</i>&nbsp;&nbsp;Call</button>
@@ -16,9 +16,8 @@ const Profile = () => {
             <div className='lower'>
                 <div>
                     <h4>Customer Details</h4>
-                    <p>Email: <span>amit@richpanel.com</span></p>
-                    <p>First Name: <span>Amit</span></p>
-                    <p>Last Name: <span>RG</span></p>
+                    <p>Email: <span>{`sample@gmail.com`}</span></p>
+                    <p>Name: <span>{conversations[selectedConversation].sender_name}</span></p>
                     <a href=''>View more details</a>
                 </div>
             </div>

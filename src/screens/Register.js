@@ -2,8 +2,10 @@ import { Link } from 'react-router-dom';
 import Card from '../components/Card';
 import '../styles/Register.css';
 import { useEffect, useState } from 'react';
+import Loader from '../components/Loader';
 
 const Register = () => {
+    const [isLoading, setIsLoading] = useState(true);
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -45,29 +47,40 @@ const Register = () => {
                         window.location.href = '/connect';
                     }else{
                         localStorage.removeItem('token');
+                        setIsLoading(false);
                     }
                 })
+        }else {
+            setIsLoading(false);
         }
     }, [])
 
     return (
-        <div className="connect">
-            <Card>
-                <h3>Create Account</h3>
-                <form onSubmit={handleSubmit}>
-                    <label htmlFor="name">Name</label><br />
-                    <input type="text" required id="name" name="name" placeholder="Enter your name" value={name} onChange={(e) => setName(e.target.value)} /><br />
-                    <label htmlFor="email">Email</label><br />
-                    <input type="email" required id="email" name="email" placeholder="Enter your email" value={email} onChange={(e) => setEmail(e.target.value)} /><br />
-                    <label htmlFor="password">Password</label><br />
-                    <input type="password" required id='password' name='password' placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} /><br />
-                    <input type="checkbox" />
-                    <label>Remember Me</label><br />
-                    <button type='submit'>Sign Up</button>
-                </form>
-                <p>Already have an account? <span><Link to='/login'>Login</Link></span></p>
-            </Card>
-        </div>
+        <>
+        {
+            isLoading 
+            ? <Loader />
+            : (
+                <div className="connect">
+                    <Card>
+                        <h3>Create Account</h3>
+                        <form onSubmit={handleSubmit}>
+                            <label htmlFor="name">Name</label><br />
+                            <input type="text" required id="name" name="name" placeholder="Enter your name" value={name} onChange={(e) => setName(e.target.value)} /><br />
+                            <label htmlFor="email">Email</label><br />
+                            <input type="email" required id="email" name="email" placeholder="Enter your email" value={email} onChange={(e) => setEmail(e.target.value)} /><br />
+                            <label htmlFor="password">Password</label><br />
+                            <input type="password" required id='password' name='password' placeholder="Password" value={password} onChange={(e) => setPassword(e.target.value)} /><br />
+                            <input type="checkbox" />
+                            <label>Remember Me</label><br />
+                            <button type='submit'>Sign Up</button>
+                        </form>
+                        <p>Already have an account? <span><Link to='/login'>Login</Link></span></p>
+                    </Card>
+                </div>
+            )
+        }
+        </>
     )
 }
 

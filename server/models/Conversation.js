@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 
 const conversationSchema = new mongoose.Schema({
-    page_id: {
+    pageId: {
         type: String,
         required: true
     },
@@ -13,29 +13,14 @@ const conversationSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    sender_pic: {
+    sender_picture: {
         type: String,
         required: true
     },
     messages: [
         {
-            message_id: {
-                type: String,
-                required: true
-            },
-            message: {
-                type: String,
-                required: true
-            },
-            timestamp: {
-                type: Date,
-                required: true
-            },
-            position: {
-                type: String,
-                default: 'left',
-                required: true
-            }
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Message',
         }
     ],
     lastUpdated: {
